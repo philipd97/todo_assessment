@@ -25,6 +25,9 @@ class ColorName {
   /// Color: #B6FFF2
   static const Color partiallyImportantTile = Color(0xFFB6FFF2);
 
+  /// Color: #8C8C8C
+  static const Color startPageDesc = Color(0xFF8C8C8C);
+
   /// Color: #00872E
   static const Color todayCompletedText = Color(0xFF00872E);
 

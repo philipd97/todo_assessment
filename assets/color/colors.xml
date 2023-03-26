@@ -11,5 +11,6 @@
     <color name="upcoming_tile">#C3C6FF</color>
     <color name="partially_important_text">#007A73</color>
     <color name="partially_important_tile">#B6FFF2</color>
+    <color name="start_page_desc">#8C8C8C</color>
 </resources>
 

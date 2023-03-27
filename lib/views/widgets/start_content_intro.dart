@@ -6,9 +6,8 @@ import 'package:todo_assessment/helpers/sizer_helper.dart';
 import 'package:todo_assessment/views/widgets/start_button.dart';
 
 class StartContentIntro extends StatelessWidget {
-  final VoidCallback getStartTap;
 
-  const StartContentIntro({super.key, required this.getStartTap});
+  const StartContentIntro({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,6 @@ class StartContentIntro extends StatelessWidget {
         const _StartDescWidget(text: TextConst.startDesc2),
         const _StartDescWidget(text: TextConst.startDesc3),
         SizedBox(height: 3.h),
-        StartButton(label: TextConst.getStarted, onPressed: getStartTap),
       ],
     );
   }

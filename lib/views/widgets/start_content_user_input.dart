@@ -1,48 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:todo_assessment/constants/text_const.dart';
 import 'package:todo_assessment/gen/assets.gen.dart';
 import 'package:todo_assessment/helpers/sizer_helper.dart';
-import 'package:todo_assessment/views/widgets/start_button.dart';
 
-class StartContentUserInput extends HookWidget {
-  const StartContentUserInput({super.key});
+class StartContentUserInput extends StatelessWidget {
+  final TextEditingController controller;
+
+  const StartContentUserInput({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Assets.images.selfieOpendoodle.image(),
-        const Text(
-          TextConst.greeting,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30.0,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 2.h),
+          Assets.images.selfieOpendoodle.image(
+            height: 50.h,
           ),
-        ),
-        SizedBox(height: 3.5.h),
-        TextField(
-          controller: controller,
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-            hintText: TextConst.youCanCallMe,
-            hintStyle: TextStyle(
-              fontSize: 18.0,
-              fontStyle: FontStyle.italic,
-              color: Color(0xFFABABAB),
+          const Text(
+            TextConst.greeting,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30.0,
             ),
           ),
-        ),
-        SizedBox(height: 5.h),
-        StartButton(
-          label: TextConst.proceed,
-          onPressed: () {},
-        ),
-      ],
+          SizedBox(height: 3.h),
+          TextField(
+            controller: controller,
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(
+              hintText: TextConst.youCanCallMe,
+              hintStyle: TextStyle(
+                fontSize: 18.0,
+                fontStyle: FontStyle.italic,
+                color: Color(0xFFABABAB),
+              ),
+            ),
+          ),
+          SizedBox(height: 2.h),
+        ],
+      ),
     );
   }
 }

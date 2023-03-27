@@ -12,6 +12,50 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/April.png
+  AssetGenImage get april => const AssetGenImage('assets/images/April.png');
+
+  /// File path: assets/images/August.png
+  AssetGenImage get august => const AssetGenImage('assets/images/August.png');
+
+  /// File path: assets/images/December.png
+  AssetGenImage get december =>
+      const AssetGenImage('assets/images/December.png');
+
+  /// File path: assets/images/February.png
+  AssetGenImage get february =>
+      const AssetGenImage('assets/images/February.png');
+
+  /// File path: assets/images/January.png
+  AssetGenImage get january => const AssetGenImage('assets/images/January.png');
+
+  /// File path: assets/images/July.png
+  AssetGenImage get july => const AssetGenImage('assets/images/July.png');
+
+  /// File path: assets/images/June.png
+  AssetGenImage get june => const AssetGenImage('assets/images/June.png');
+
+  /// File path: assets/images/March.png
+  AssetGenImage get march => const AssetGenImage('assets/images/March.png');
+
+  /// File path: assets/images/May.png
+  AssetGenImage get may => const AssetGenImage('assets/images/May.png');
+
+  /// File path: assets/images/November.png
+  AssetGenImage get november =>
+      const AssetGenImage('assets/images/November.png');
+
+  /// File path: assets/images/October.png
+  AssetGenImage get october => const AssetGenImage('assets/images/October.png');
+
+  /// File path: assets/images/September.png
+  AssetGenImage get september =>
+      const AssetGenImage('assets/images/September.png');
+
+  /// File path: assets/images/checklist.png
+  AssetGenImage get checklist =>
+      const AssetGenImage('assets/images/checklist.png');
+
   /// File path: assets/images/messy-opendoodle.png
   AssetGenImage get messyOpendoodle =>
       const AssetGenImage('assets/images/messy-opendoodle.png');
@@ -25,8 +69,24 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/selfie-opendoodle.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [messyOpendoodle, readingOpendoodle, selfieOpendoodle];
+  List<AssetGenImage> get values => [
+        april,
+        august,
+        december,
+        february,
+        january,
+        july,
+        june,
+        march,
+        may,
+        november,
+        october,
+        september,
+        checklist,
+        messyOpendoodle,
+        readingOpendoodle,
+        selfieOpendoodle
+      ];
 }
 
 class Assets {

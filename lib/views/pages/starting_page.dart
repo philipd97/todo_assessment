@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_assessment/constants/text_const.dart';
+import 'package:todo_assessment/helpers/snackbar_helper.dart';
 import 'package:todo_assessment/views/pages/home_page.dart';
 import 'package:todo_assessment/views/widgets/start_button.dart';
 
@@ -13,6 +14,29 @@ class StartingPage extends HookWidget {
   static const routeName = '/';
 
   const StartingPage({super.key});
+
+  void _onClickButton({
+    required PageController pageController,
+    required BuildContext context,
+    required TextEditingController textController,
+  }) {
+    if (pageController.page?.toInt() == 0) {
+      pageController.animateToPage(
+        1,
+        duration: const Duration(milliseconds: 900),
+        curve: Curves.easeInOutQuint,
+      );
+    } else {
+      if (textController.text.trim().isEmpty) {
+        showCustomSnackBar(
+          context: context,
+          text: 'Please enter your name to proceed',
+        );
+        return;
+      }
+      context.go(HomePage.routeName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +66,14 @@ class StartingPage extends HookWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   const StartContentIntro(),
-                  StartContentUserInput(controller: textController),
+                  StartContentUserInput(
+                    controller: textController,
+                    onSubmitted: (_) => _onClickButton(
+                      pageController: pageController,
+                      context: context,
+                      textController: textController,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -55,26 +86,11 @@ class StartingPage extends HookWidget {
                   return StartButton(
                     label:
                         pageIsFirst ? TextConst.getStarted : TextConst.proceed,
-                    onPressed: () {
-                      if (pageIsFirst) {
-                        pageController.animateToPage(
-                          1,
-                          duration: const Duration(milliseconds: 900),
-                          curve: Curves.easeInOutQuint,
-                        );
-                      } else {
-                        if (textController.text.trim().isEmpty) {
-                          // TODO: refactor this
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            content: Text('We\'d like to know your name :('),
-                          ));
-                          return;
-                        }
-                        context.go(HomePage.routeName);
-                      }
-                    },
+                    onPressed: () => _onClickButton(
+                      pageController: pageController,
+                      context: context,
+                      textController: textController,
+                    ),
                   );
                 },
               ),

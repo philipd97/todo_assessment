@@ -42,10 +42,10 @@ class TaskViewTab extends StatelessWidget {
                         Row(
                           children: [
                             CustomedChip(
-                              chipType: ChipType.todayIncompleteTile,
+                              chipType: ChipTypeEnum.todayIncompleteTile,
                             ),
                             CustomedChip(
-                              chipType: ChipType.todayCompleted,
+                              chipType: ChipTypeEnum.todayCompleted,
                               label: '1 of 4 Completed',
                             ),
                           ],
@@ -112,8 +112,8 @@ class TaskViewTab extends StatelessWidget {
                     title: Text('title'),
                     subtitle: Row(
                       children: [
-                        CustomedChip(chipType: ChipType.todayIncompleteTile),
-                        CustomedChip(chipType: ChipType.important),
+                        CustomedChip(chipType: ChipTypeEnum.todayIncompleteTile),
+                        CustomedChip(chipType: ChipTypeEnum.important),
                       ],
                     ),
                     trailing: ReorderableDragStartListener(

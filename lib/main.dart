@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'To Do Assessment',
           theme: ThemeData(
+            useMaterial3: true,
             primarySwatch: Colors.grey,
             fontFamily: FontFamily.sofiaSans,
           ),

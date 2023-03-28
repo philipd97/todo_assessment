@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
-import 'package:todo_assessment/gen/assets.gen.dart';
-import 'package:todo_assessment/gen/colors.gen.dart';
-import 'package:todo_assessment/helpers/enums_helper.dart';
-import 'package:todo_assessment/helpers/sizer_helper.dart';
-import 'package:todo_assessment/views/widgets/custom_action_button.dart';
-import 'package:todo_assessment/views/widgets/customed_chip.dart';
-import 'package:todo_assessment/views/widgets/home_tabs/calendar_view_tab.dart';
-import 'package:todo_assessment/views/widgets/home_tabs/tasks_view_tab.dart';
-import 'package:todo_assessment/views/widgets/tile_checkbox.dart';
+
+import '../../gen/assets.gen.dart';
+import '../widgets/home_tabs/calendar_view_tab.dart';
+import '../widgets/home_tabs/tasks_view_tab.dart';
+import 'task_detail_page.dart';
 
 class HomePage extends HookWidget {
   static const routeName = '/home';
@@ -34,7 +31,9 @@ class HomePage extends HookWidget {
         ),
         child: FloatingActionButton(
           backgroundColor: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            context.push(TaskDetailPage.routeName);
+          },
           child: const Icon(Icons.add, size: 28.0),
         ),
       ),
@@ -54,6 +53,7 @@ class HomePage extends HookWidget {
           backgroundColor: Colors.white,
           onTap: (newIndex) => index.value = newIndex,
           items: [
+            // TODO: check back on why color not changing active inactive
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage(Assets.images.checklist.path),
@@ -62,7 +62,7 @@ class HomePage extends HookWidget {
               label: 'Testing',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(IconlyLight.calendar),
+              icon: Icon(IconlyLight.calendar, color: Colors.black),
               label: 'Testing2',
             ),
           ],

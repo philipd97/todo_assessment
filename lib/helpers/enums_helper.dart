@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_assessment/constants/text_const.dart';
+import 'package:todo_assessment/gen/assets.gen.dart';
 import 'package:todo_assessment/gen/colors.gen.dart';
 
-enum ChipType {
+enum ChipTypeEnum {
   todayIncompleteTile(
     textColor: Colors.black,
     tileColor: ColorName.todayIncompleteTile,
@@ -38,9 +39,56 @@ enum ChipType {
   final Color tileColor;
   final String? text;
 
-  const ChipType({
+  const ChipTypeEnum({
     required this.textColor,
     required this.tileColor,
     this.text,
   });
+}
+
+enum CalendarMonthEnum {
+  january,
+  february,
+  march,
+  april,
+  may,
+  june,
+  july,
+  august,
+  september,
+  october,
+  november,
+  december;
+}
+
+extension GetImagePath on CalendarMonthEnum {
+  String get imgPath {
+    const images = Assets.images;
+    switch (this) {
+      case CalendarMonthEnum.january:
+        return images.january.path;
+      case CalendarMonthEnum.february:
+        return images.february.path;
+      case CalendarMonthEnum.march:
+        return images.march.path;
+      case CalendarMonthEnum.april:
+        return images.april.path;
+      case CalendarMonthEnum.may:
+        return images.may.path;
+      case CalendarMonthEnum.june:
+        return images.june.path;
+      case CalendarMonthEnum.july:
+        return images.july.path;
+      case CalendarMonthEnum.august:
+        return images.august.path;
+      case CalendarMonthEnum.september:
+        return images.september.path;
+      case CalendarMonthEnum.october:
+        return images.october.path;
+      case CalendarMonthEnum.november:
+        return images.november.path;
+      case CalendarMonthEnum.december:
+        return images.december.path;
+    }
+  }
 }

@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
+
 import 'package:todo_assessment/constants/text_const.dart';
 import 'package:todo_assessment/gen/assets.gen.dart';
 import 'package:todo_assessment/gen/colors.gen.dart';
 
-enum ChipTypeEnum {
-  todayIncompleteTile(
+abstract class ChipLayout {
+  final Color textColor;
+  final Color tileColor;
+  final String? text;
+
+  ChipLayout({
+    required this.textColor,
+    required this.tileColor,
+    this.text,
+  });
+}
+
+enum ScheduleEnum implements ChipLayout {
+  previous(
+    textColor: ColorName.previousText,
+    tileColor: ColorName.previousTile,
+  ),
+  today(
     textColor: Colors.black,
     tileColor: ColorName.todayIncompleteTile,
     text: TextConst.today,
@@ -18,7 +35,25 @@ enum ChipTypeEnum {
     textColor: ColorName.upcomingText,
     tileColor: ColorName.upcomingTile,
     text: TextConst.upcoming,
-  ),
+  );
+
+  @override
+  final Color textColor;
+
+  @override
+  final Color tileColor;
+
+  @override
+  final String? text;
+
+  const ScheduleEnum({
+    required this.textColor,
+    required this.tileColor,
+    this.text,
+  });
+}
+
+enum ImportanceEnum implements ChipLayout {
   veryImportant(
     textColor: ColorName.veryImportantText,
     tileColor: ColorName.veryImportantTile,
@@ -35,11 +70,16 @@ enum ChipTypeEnum {
     text: TextConst.partImportant,
   );
 
+  @override
   final Color textColor;
+
+  @override
   final Color tileColor;
+
+  @override
   final String? text;
 
-  const ChipTypeEnum({
+  const ImportanceEnum({
     required this.textColor,
     required this.tileColor,
     this.text,

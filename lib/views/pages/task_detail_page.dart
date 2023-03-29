@@ -78,7 +78,7 @@ class TaskDetailPage extends StatelessWidget {
                         height: 5.h,
                         child: FittedBox(
                           child: CustomedChip(
-                            chipType: ChipTypeEnum.todayCompleted,
+                            chipLayout: ScheduleEnum.todayCompleted,
                           ),
                         ),
                       ),
@@ -86,7 +86,7 @@ class TaskDetailPage extends StatelessWidget {
                         height: 5.h,
                         child: FittedBox(
                           child: CustomedChip(
-                            chipType: ChipTypeEnum.important,
+                            chipLayout: ImportanceEnum.important,
                           ),
                         ),
                       ),

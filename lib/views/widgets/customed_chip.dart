@@ -6,20 +6,20 @@ import 'package:todo_assessment/helpers/enums_helper.dart';
 import 'package:todo_assessment/helpers/sizer_helper.dart';
 
 class CustomedChip extends StatelessWidget {
-  final ChipTypeEnum chipType;
+  final ChipLayout chipLayout;
   final String? label;
 
   const CustomedChip({
     super.key,
+    required this.chipLayout,
     this.label,
-    required this.chipType,
   });
 
   @override
   Widget build(BuildContext context) {
-    final textColor = chipType.textColor;
-    final tileColor = chipType.tileColor;
-    final text = label ?? chipType.text!;
+    final textColor = chipLayout.textColor;
+    final tileColor = chipLayout.tileColor;
+    final text = label ?? chipLayout.text!;
 
     return Container(
       margin: EdgeInsets.only(right: 2.w),

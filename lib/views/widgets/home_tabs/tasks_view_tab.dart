@@ -1,12 +1,38 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_assessment/bloc/user_tasks_bloc.dart';
 import 'package:todo_assessment/helpers/enums_helper.dart';
 import 'package:todo_assessment/helpers/sizer_helper.dart';
+import 'package:todo_assessment/model/task.dart';
+import 'package:todo_assessment/helpers/database_helper.dart';
 import 'package:todo_assessment/views/widgets/custom_action_button.dart';
 import 'package:todo_assessment/views/widgets/customed_chip.dart';
 import 'package:todo_assessment/views/widgets/tile_checkbox.dart';
 
-class TaskViewTab extends StatelessWidget {
+class TaskViewTab extends StatefulWidget {
   const TaskViewTab({super.key});
+
+  @override
+  State<TaskViewTab> createState() => _TaskViewTabState();
+}
+
+class _TaskViewTabState extends State<TaskViewTab> {
+  Future<void> _getDBTest() async {
+    // context.read<UserTaskBloc>().add(IncreaseCount());
+    // final db = await DatabaseRepository.instance().database;
+    // log('DATABASE: $db');
+    // final result = await db.query('user');
+    // log('result: $result');
+    // final intResult = await db.insert(
+    //   'tasks',
+    //   Task(title: 'Title', date: DateTime.now()).toMap(),
+    // );
+    // log('intResult: $intResult');
+    // final result2 = await db.query('tasks');
+    // log('result2: $result2');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +68,10 @@ class TaskViewTab extends StatelessWidget {
                         Row(
                           children: [
                             CustomedChip(
-                              chipType: ChipTypeEnum.todayIncompleteTile,
+                              chipLayout: ScheduleEnum.today,
                             ),
                             CustomedChip(
-                              chipType: ChipTypeEnum.todayCompleted,
+                              chipLayout: ScheduleEnum.todayCompleted,
                               label: '1 of 4 Completed',
                             ),
                           ],
@@ -111,9 +137,9 @@ class TaskViewTab extends StatelessWidget {
                     leading: const TileCheckbox(),
                     title: Text('title'),
                     subtitle: Row(
-                      children: [
-                        CustomedChip(chipType: ChipTypeEnum.todayIncompleteTile),
-                        CustomedChip(chipType: ChipTypeEnum.important),
+                      children: const [
+                        CustomedChip(chipLayout: ScheduleEnum.today),
+                        CustomedChip(chipLayout: ImportanceEnum.important),
                       ],
                     ),
                     trailing: ReorderableDragStartListener(
@@ -124,6 +150,12 @@ class TaskViewTab extends StatelessWidget {
                 ),
               );
             },
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: TextButton(
+            onPressed: () async => await _getDBTest(),
+            child: Text('Test DB'),
           ),
         ),
       ],

@@ -47,7 +47,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     AddTaskEvent event,
     Emitter emit,
   ) async {
-    log('init in Addtask: $state, hash: ${state.hashCode}');
     final taskList = state.tasks;
     const latestIndex = 0;
 
@@ -85,7 +84,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       }
     }
     emit(state.copyWith(tasks: taskList));
-    log('after addd in Addtask: $state, hash: ${state.hashCode}');
   }
 
   void _onReorderTaskIndexEvent(
@@ -134,6 +132,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     final taskIndex = state.tasks.indexWhere((task) => task.id == event.taskId);
     final db = await databaseHelper.database;
     final list = state.tasks;
+
     final task = list[taskIndex].copyWith(
       importanceEnum: event.importanceEnum,
       date: event.dateTime,
@@ -146,6 +145,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       where: '${Task.idKey} = ?',
       whereArgs: [task.id],
     );
+
     list[taskIndex] = task;
     emit(state.copyWith(tasks: list));
   }
@@ -155,14 +155,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     final db = await databaseHelper.database;
     final list = state.tasks;
 
-    log('prevList: $list');
 
     final task = list[taskIndex];
-    log('event complete?  ${event.isCompleted}');
-    log('task:$task ');
 
     final newTaskCopy = task.copyWith(isCompleted: event.isCompleted);
-    log('newCopytask:$newTaskCopy');
 
     final result = await db.update(
       Task.taskTable,
@@ -170,11 +166,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       where: '${Task.idKey} = ?',
       whereArgs: [task.id],
     );
-    log('result:$result');
 
     list[taskIndex] = newTaskCopy;
     emit(state.copyWith(tasks: list));
-    log('newList: ${state.tasks}');
   }
 
   void _onDeleteTaskEvent(DeleteTaskEvent event, Emitter emit) async {

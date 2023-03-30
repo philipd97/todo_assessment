@@ -51,8 +51,8 @@ class TaskDetailPage extends StatelessWidget {
                 ShowCaseWidget.of(context).completed(editBtnShowcase),
             description: TextConst.showcaseEditTaskBtn,
             child: IconButton(
-              onPressed: () =>
-                  context.go(TaskEntryPage.routeName, extra: {'task': task}),
+              onPressed: () => context
+                  .replace(TaskEntryPage.routeName, extra: {'task': task}),
               icon: const Icon(Icons.edit_outlined),
             ),
           ),

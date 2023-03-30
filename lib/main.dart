@@ -23,7 +23,6 @@ final editBtnShowcase = GlobalKey();
 final deleteBtnShowcase = GlobalKey();
 final markCompleteShowcase = GlobalKey();
 
-// TODO: add able to showcase the widgets once click ? icon at home
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -41,9 +40,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (_) => UserBloc(DatabaseHelper.instance())
-              ..add(const FetchUsernameEvent())),
-        BlocProvider(create: (_) => TaskBloc(DatabaseHelper.instance())),
+          create: (_) => UserBloc(DatabaseHelper.instance())
+            ..add(const FetchUsernameEvent()),
+        ),
+        BlocProvider(
+          create: (_) => TaskBloc(DatabaseHelper.instance()),
+        ),
       ],
       child: LayoutBuilder(
         builder: (context, constraint) {

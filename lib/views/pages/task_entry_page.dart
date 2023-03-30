@@ -29,7 +29,7 @@ class TaskEntryPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final dateTime = useState<DateTime?>(task?.date);
-    final importance = useState<ImportanceEnum?>(null);
+    final importance = useState<ImportanceEnum?>(task?.importanceEnum);
     final titleController = useTextEditingController(text: task?.title);
     final descController = useTextEditingController(text: task?.description);
     final userState = context.read<UserBloc>().state;
@@ -198,7 +198,10 @@ class TaskEntryPage extends HookWidget {
                   label: 'Save task',
                   onPressed: () {
                     FocusManager.instance.primaryFocus?.unfocus();
-                    if (titleController.text.trim().isEmpty) {
+                    final titleText = titleController.text.trim();
+                    final descText = descController.text.trim();
+
+                    if (titleText.isEmpty) {
                       showCustomSnackBar(
                         context: context,
                         text: TextConst.inputTaskTitle,
@@ -219,15 +222,26 @@ class TaskEntryPage extends HookWidget {
                       );
                       return;
                     }
+
+                    final isAdd = task == null || task?.id == null;
                     context.read<TaskBloc>().add(
-                          AddTaskEvent(
-                            title: titleController.text.trim(),
-                            description: descController.text.trim().isEmpty
-                                ? null
-                                : descController.text.trim(),
-                            dateTime: dateTime.value!,
-                            importanceEnum: importance.value!,
-                          ),
+                          isAdd
+                              ? AddTaskEvent(
+                                  title: titleText.trim(),
+                                  description:
+                                      descText.isEmpty ? null : descText.trim(),
+                                  dateTime: dateTime.value!,
+                                  importanceEnum: importance.value!,
+                                )
+                              : UpdateTaskEvent(
+                                  taskId: task!.id!,
+                                  title: titleController.text,
+                                  description: descText.trim().isEmpty
+                                      ? null
+                                      : descText.trim(),
+                                  dateTime: dateTime.value!,
+                                  importanceEnum: importance.value!,
+                                ),
                         );
                     context.pop();
                   },

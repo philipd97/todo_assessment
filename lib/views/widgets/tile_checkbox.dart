@@ -32,7 +32,6 @@ class _TileCheckboxState extends State<TileCheckbox> {
   }
 
   void _onChanged(bool? value) {
-    // TODO: trigger event here
     widget.onChanged(value!);
     setState(() => _isChecked = value);
   }

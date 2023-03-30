@@ -45,7 +45,6 @@ class _CalendarViewTabState extends State<CalendarViewTab> {
       if (calendarTapDetails.appointments == null) return;
       final appointmentId =
           (calendarTapDetails.appointments!.first as Appointment).id;
-      log('tap details: ${calendarTapDetails.appointments}');
       final task = context
           .read<TaskBloc>()
           .state

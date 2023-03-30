@@ -54,7 +54,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   void _onFinishShowCaseEvent(
       FinishFirstTimeShowcaseEvent event, Emitter emit) async {
-    log('UserState: $state');
     final newState = state.copyWith(watchedShowcase: true);
     // add username in db
     final database = await databaseHelper.database;
@@ -63,7 +62,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       newState.toMap(),
     );
     emit(newState);
-    log('newUserState: $state');
   }
 
   void _onWatchShowcaseEvent(WatchShowcaseEvent event, Emitter emit) =>

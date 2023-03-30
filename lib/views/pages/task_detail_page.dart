@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
+import 'package:showcaseview/showcaseview.dart';
+import 'package:todo_assessment/bloc/user/user_bloc.dart';
 import 'package:todo_assessment/helpers/enums_helper.dart';
 import 'package:todo_assessment/helpers/extension_helper.dart';
 import 'package:todo_assessment/helpers/snackbar_helper.dart';
+import 'package:todo_assessment/main.dart';
+import 'package:todo_assessment/views/pages/home_page.dart';
 
 import '../../bloc/task/task_bloc.dart';
 import '../../constants/layout_const.dart';
@@ -25,30 +29,61 @@ class TaskDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userState = context.read<UserBloc>().state;
+      if (!userState.watchedShowcase) {
+        ShowCaseWidget.of(context).startShowCase([
+          editBtnShowcase,
+          deleteBtnShowcase,
+          markCompleteShowcase,
+        ]);
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          IconButton(
-            onPressed: () =>
-                context.go(TaskEntryPage.routeName, extra: {'task'}),
-            icon: const Icon(Icons.edit_outlined),
+          Showcase(
+            key: editBtnShowcase,
+            disposeOnTap: false,
+            onTargetClick: () =>
+                ShowCaseWidget.of(context).completed(editBtnShowcase),
+            description: TextConst.showcaseEditTaskBtn,
+            child: IconButton(
+              onPressed: () =>
+                  context.go(TaskEntryPage.routeName, extra: {'task': task}),
+              icon: const Icon(Icons.edit_outlined),
+            ),
           ),
-          IconButton(
-            onPressed: () async {
-              final confirm = await decisionDialog(
-                context: context,
-                contentText: 'Are you sure you would like to delete this task?',
-              );
-              if (!confirm) return;
-              if (context.mounted) {
-                context.read<TaskBloc>().add(DeleteTaskEvent(taskId: task.id!));
-                showCustomSnackBar(context: context, text: 'Task deleted!');
-                context.pop();
-              }
-            },
-            icon: const Icon(IconlyLight.delete),
+          Showcase(
+            key: deleteBtnShowcase,
+            disposeOnTap: false,
+            onTargetClick: () =>
+                ShowCaseWidget.of(context).completed(deleteBtnShowcase),
+            description: TextConst.showcaseDeleteTaskBtn,
+            child: IconButton(
+              onPressed: () async {
+                final confirm = await decisionDialog(
+                  context: context,
+                  contentText: TextConst.confirmDeleteTask,
+                );
+                if (!confirm) return;
+                if (context.mounted) {
+                  context
+                      .read<TaskBloc>()
+                      .add(DeleteTaskEvent(taskId: task.id!));
+
+                  showCustomSnackBar(
+                    context: context,
+                    text: TextConst.taskDeleted,
+                  );
+
+                  context.pop();
+                }
+              },
+              icon: const Icon(IconlyLight.delete),
+            ),
           ),
         ],
       ),
@@ -62,7 +97,7 @@ class TaskDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Task name',
+                    TextConst.taskName,
                     style: taskDetailLabelStyle,
                   ),
                   Text(
@@ -128,23 +163,32 @@ class TaskDetailPage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 2.h),
-              child: StartButton(
-                  label: task.isCompleted
-                      ? 'Mark as Incomplete'
-                      : 'Mark as Complete',
-                  onPressed: () {
-                    context.read<TaskBloc>().add(
-                          CheckBoxTriggerEvent(
-                            taskId: task.id!,
-                            isCompleted: !task.isCompleted,
-                          ),
-                        );
-                    showCustomSnackBar(
-                      context: context,
-                      text: 'Successfully make changes!',
-                    );
-                    context.pop();
-                  }),
+              child: Showcase(
+                key: markCompleteShowcase,
+                disposeOnTap: false,
+                onTargetClick: () {
+                  ShowCaseWidget.of(context).completed(markCompleteShowcase);
+                  context.go(HomePage.routeName);
+                },
+                description: TextConst.showcaseTaskCompletion,
+                child: StartButton(
+                    label: task.isCompleted
+                        ? TextConst.markIncomplete
+                        : TextConst.markComplete,
+                    onPressed: () {
+                      context.read<TaskBloc>().add(
+                            CheckBoxTriggerEvent(
+                              taskId: task.id!,
+                              isCompleted: !task.isCompleted,
+                            ),
+                          );
+                      showCustomSnackBar(
+                        context: context,
+                        text: TextConst.successMakeChanges,
+                      );
+                      context.pop();
+                    }),
+              ),
             ),
           ],
         ),

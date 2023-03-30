@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:todo_assessment/helpers/enums_helper.dart';
-import 'package:todo_assessment/model/task.dart';
 
 extension ParseDateTime on DateTime {
   String get formatToDate {

@@ -14,8 +14,10 @@ class FetchUsernameEvent extends UserEvent {
   const FetchUsernameEvent();
 }
 
-class FinishShowCaseEvent extends UserEvent {
-  final bool watchedShowcase;
+class FinishFirstTimeShowcaseEvent extends UserEvent {
+  const FinishFirstTimeShowcaseEvent();
+}
 
-  const FinishShowCaseEvent({required this.watchedShowcase});
+class WatchShowcaseEvent extends UserEvent {
+  const WatchShowcaseEvent();
 }

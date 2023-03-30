@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../pages/previous_task_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
+
+import '../../bloc/user/user_bloc.dart';
 
 class CustomedActionButton extends StatelessWidget {
   const CustomedActionButton({super.key});
@@ -27,11 +29,13 @@ class CustomedActionButton extends StatelessWidget {
         shape: const CircleBorder(),
         child: InkWell(
           borderRadius: BorderRadius.circular(30.0),
-          onTap: () => context.push(PreviousTaskPage.routeName),
+          onTap: () {
+            context.read<UserBloc>().add(const WatchShowcaseEvent());
+          },
           child: const Padding(
             padding: EdgeInsets.all(4.0),
             child: Icon(
-              Icons.history,
+              IconlyLight.info_square,
               color: Colors.black,
             ),
           ),

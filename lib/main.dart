@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:todo_assessment/bloc/task/task_bloc.dart';
-import 'package:todo_assessment/bloc/user/user_bloc.dart';
-import 'package:todo_assessment/helpers/database_helper.dart';
 
+import 'bloc/task/task_bloc.dart';
+import 'bloc/user/user_bloc.dart';
 import 'gen/fonts.gen.dart';
+import 'helpers/database_helper.dart';
 import 'helpers/routes_helper.dart';
 import 'helpers/sizer_helper.dart';
 
-final showcaseKey1 = GlobalKey();
-final showcaseKey2 = GlobalKey();
-final showcaseKey3 = GlobalKey();
-final showcaseKey4 = GlobalKey();
-final showcaseKey5 = GlobalKey();
-final showcaseKey6 = GlobalKey();
-final showcaseKey7 = GlobalKey();
-final showcaseKey8 = GlobalKey();
-final showcaseKey9 = GlobalKey();
+final addTaskBtnShowcase = GlobalKey();
+final calendarShowcase = GlobalKey();
+final taskTitleShowKey = GlobalKey();
+final taskDescShowKey = GlobalKey();
+final taskDateShowKey = GlobalKey();
+final taskImportanceShowKey = GlobalKey();
+final saveTaskBtnShowKey = GlobalKey();
+final editBtnShowcase = GlobalKey();
+final deleteBtnShowcase = GlobalKey();
+final markCompleteShowcase = GlobalKey();
 
 // TODO: add able to showcase the widgets once click ? icon at home
 
@@ -55,22 +56,17 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.grey,
               fontFamily: FontFamily.sofiaSans,
             ),
-            routerConfig: routes(context),
-            builder: (context, child) => GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-              child: ScrollConfiguration(
-                behavior: NoGlowScrollBehaviour(),
-                child: ShowCaseWidget(
-                  onFinish: () {
-                    // context
-                    //     .read<UserBloc>()
-                    //     .add(const FinishShowCaseEvent(watchedShowcase: true));
-                  },
-                  builder: Builder(builder: (context) {
-                    return child!;
-                  }),
-                ),
+            routerConfig: routers,
+            builder: (context, child) => ScrollConfiguration(
+              behavior: NoGlowScrollBehaviour(),
+              child: ShowCaseWidget(
+                disableBarrierInteraction: true,
+                onFinish: () {
+                  context
+                      .read<UserBloc>()
+                      .add(const FinishFirstTimeShowcaseEvent());
+                },
+                builder: Builder(builder: (_) => child!),
               ),
             ),
           );

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_assessment/bloc/task/task_bloc.dart';
-import 'package:todo_assessment/bloc/user/user_bloc.dart';
-import 'package:todo_assessment/constants/layout_const.dart';
-import 'package:todo_assessment/helpers/enums_helper.dart';
-import 'package:todo_assessment/helpers/extension_helper.dart';
-import 'package:todo_assessment/helpers/sizer_helper.dart';
-import 'package:todo_assessment/views/widgets/customed_chip.dart';
+
+import '../../../bloc/task/task_bloc.dart';
+import '../../../bloc/user/user_bloc.dart';
+import '../../../constants/layout_const.dart';
+import '../../../helpers/enums_helper.dart';
+import '../../../helpers/extension_helper.dart';
+import '../../../helpers/sizer_helper.dart';
+import '../custom_action_button.dart';
+import '../customed_chip.dart';
 
 class TaskViewHeader extends StatelessWidget {
   const TaskViewHeader({super.key});
@@ -80,8 +82,9 @@ class TaskViewHeader extends StatelessWidget {
                   ),
                 ],
               ),
+              const CustomedActionButton(),
             ],
-          )
+          ),
         ],
       ),
     );

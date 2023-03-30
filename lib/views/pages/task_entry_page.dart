@@ -36,14 +36,14 @@ class TaskEntryPage extends HookWidget {
 
     useEffect(
       () {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!userState.watchedShowcase) {
             ShowCaseWidget.of(context).startShowCase([
-              showcaseKey2,
-              showcaseKey3,
-              showcaseKey4,
-              showcaseKey5,
-              showcaseKey6,
+              taskTitleShowKey,
+              taskDescShowKey,
+              taskDateShowKey,
+              taskImportanceShowKey,
+              saveTaskBtnShowKey,
             ]);
           }
         });
@@ -67,8 +67,11 @@ class TaskEntryPage extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Showcase(
-                    key: showcaseKey2,
-                    description: 'Here is the field to put your task title',
+                    key: taskTitleShowKey,
+                    disposeOnTap: false,
+                    onTargetClick: () =>
+                        ShowCaseWidget.of(context).completed(taskTitleShowKey),
+                    description: TextConst.showcaseTaskTitleField,
                     child: TextField(
                       controller: titleController,
                       style: const TextStyle(
@@ -80,16 +83,18 @@ class TaskEntryPage extends HookWidget {
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 0.5.h),
-                        labelText: 'Task Name',
+                        labelText: TextConst.taskName,
                         labelStyle: const TextStyle(fontSize: 26.0),
                       ),
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Showcase(
-                    key: showcaseKey3,
-                    description:
-                        'Here is the field to put your task description',
+                    key: taskDescShowKey,
+                    disposeOnTap: false,
+                    onTargetClick: () =>
+                        ShowCaseWidget.of(context).completed(taskDescShowKey),
+                    description: TextConst.showcaseTaskDescField,
                     child: TextField(
                       controller: descController,
                       style:
@@ -106,8 +111,11 @@ class TaskEntryPage extends HookWidget {
                   ),
                   SizedBox(height: 2.h),
                   Showcase(
-                    key: showcaseKey4,
-                    description: 'Choose the date of your task',
+                    key: taskDateShowKey,
+                    disposeOnTap: false,
+                    onTargetClick: () =>
+                        ShowCaseWidget.of(context).completed(taskDateShowKey),
+                    description: TextConst.showcaseDate,
                     child: Row(
                       children: [
                         const Icon(IconlyLight.calendar, size: 26.0),
@@ -126,7 +134,7 @@ class TaskEntryPage extends HookWidget {
                           },
                           child: Text(
                             dateTime.value == null
-                                ? 'Date'
+                                ? TextConst.date
                                 : (dateTime.value)!.formatToDisplableView,
                           ),
                         ),
@@ -135,8 +143,11 @@ class TaskEntryPage extends HookWidget {
                   ),
                   SizedBox(height: 1.h),
                   Showcase(
-                    key: showcaseKey5,
-                    description: 'Select the importance of your task',
+                    key: taskImportanceShowKey,
+                    disposeOnTap: false,
+                    onTargetClick: () => ShowCaseWidget.of(context)
+                        .completed(taskImportanceShowKey),
+                    description: TextConst.showcaseimportance,
                     child: Row(
                       children: [
                         const Icon(IconlyLight.swap, size: 26.0),
@@ -152,7 +163,7 @@ class TaskEntryPage extends HookWidget {
                             importance.value = data;
                           },
                           child: Text(importance.value == null
-                              ? 'Importance'
+                              ? TextConst.importance
                               : importance.value!.getString),
                         ),
                       ],
@@ -165,24 +176,23 @@ class TaskEntryPage extends HookWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 2.h),
               child: Showcase(
-                key: showcaseKey6,
-                description: 'Click Save task & preview the next page',
+                key: saveTaskBtnShowKey,
+                description: TextConst.showcaseSaveTaskBtn,
                 disposeOnTap: true,
                 onTargetClick: () {
+                  ShowCaseWidget.of(context).completed(saveTaskBtnShowKey);
                   context.push(
                     TaskDetailPage.routeName,
                     extra: {
                       'task': Task(
-                        title: 'This is a preview task generated by Philip.',
+                        title: TextConst.showcaseTitle,
                         date: DateTime.now(),
                         importanceEnum: ImportanceEnum.veryImportant,
                         index: 1234124,
-                        description:
-                            'This is a testing description generated by Philip.',
+                        description: TextConst.showcaseDesc,
                       )
                     },
                   );
-                  log('finish');
                 },
                 child: StartButton(
                   label: 'Save task',
@@ -190,21 +200,21 @@ class TaskEntryPage extends HookWidget {
                     if (titleController.text.trim().isEmpty) {
                       showCustomSnackBar(
                         context: context,
-                        text: 'Please enter your task\'s title',
+                        text: TextConst.inputTaskTitle,
                       );
                       return;
                     }
                     if (dateTime.value == null) {
                       showCustomSnackBar(
                         context: context,
-                        text: 'Please input the task\'s date',
+                        text: TextConst.inputTaskDate,
                       );
                       return;
                     }
                     if (importance.value == null) {
                       showCustomSnackBar(
                         context: context,
-                        text: 'Please input the task\'s importance',
+                        text: TextConst.inputTaskImportance,
                       );
                       return;
                     }

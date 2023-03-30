@@ -11,7 +11,7 @@ class StartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 2.h),
+        padding: EdgeInsets.symmetric(vertical: 1.35.h),
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           side: const BorderSide(width: 2.0),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_assessment/helpers/sizer_helper.dart';
+import 'package:go_router/go_router.dart';
+import '../pages/previous_task_page.dart';
 
 class CustomedActionButton extends StatelessWidget {
   const CustomedActionButton({super.key});
@@ -26,11 +27,11 @@ class CustomedActionButton extends StatelessWidget {
         shape: const CircleBorder(),
         child: InkWell(
           borderRadius: BorderRadius.circular(30.0),
-          onTap: () {},
+          onTap: () => context.push(PreviousTaskPage.routeName),
           child: const Padding(
             padding: EdgeInsets.all(4.0),
             child: Icon(
-              Icons.notifications_active_outlined,
+              Icons.history,
               color: Colors.black,
             ),
           ),

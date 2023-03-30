@@ -22,4 +22,5 @@ class TextConst {
   static const importance = 'Importance';
   static const rescheduleToday = 'Reschedule to Today';
   static const addTask = 'Add task';
+  static const enterName = 'Please enter your name to proceed';
 }

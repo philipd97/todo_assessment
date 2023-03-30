@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_assessment/bloc/task/task_bloc.dart';
 import '../../gen/colors.gen.dart';
 
 class TileCheckbox extends StatefulWidget {
-  const TileCheckbox({super.key});
+  final bool isCompleted;
+  final void Function(bool onChanged) onChanged;
+
+  const TileCheckbox({
+    super.key,
+    required this.isCompleted,
+    required this.onChanged,
+  });
 
   @override
   State<TileCheckbox> createState() => _TileCheckboxState();
 }
 
 class _TileCheckboxState extends State<TileCheckbox> {
-  bool _isChecked = false;
+  late bool _isChecked = widget.isCompleted;
+
+  @override
+  void didUpdateWidget(covariant TileCheckbox oldWidget) {
+    if (oldWidget.isCompleted != widget.isCompleted &&
+        _isChecked != widget.isCompleted) {
+      setState(() {
+        _isChecked = widget.isCompleted;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _onChanged(bool? value) {
+    // TODO: trigger event here
+    widget.onChanged(value!);
+    setState(() => _isChecked = value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +55,12 @@ class _TileCheckboxState extends State<TileCheckbox> {
         child: Checkbox(
           value: _isChecked,
           fillColor: MaterialStatePropertyAll(
-              _isChecked ? ColorName.todayCompletedTile : Colors.transparent),
+            _isChecked ? ColorName.todayCompletedTile : Colors.transparent,
+          ),
           activeColor: Colors.transparent,
           checkColor: Colors.black,
           shape: const CircleBorder(),
-          onChanged: (value) => setState(() => _isChecked = value!),
+          onChanged: _onChanged,
         ),
       ),
     );

@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
-import 'package:todo_assessment/constants/layout_const.dart';
-import 'package:todo_assessment/constants/text_const.dart';
 import 'package:todo_assessment/helpers/enums_helper.dart';
-import 'package:todo_assessment/helpers/sizer_helper.dart';
-import 'package:todo_assessment/views/pages/task_entry_page.dart';
-import 'package:todo_assessment/views/widgets/customed_chip.dart';
-import 'package:todo_assessment/views/widgets/start_button.dart';
+import 'package:todo_assessment/helpers/extension_helper.dart';
+import 'package:todo_assessment/helpers/snackbar_helper.dart';
+
+import '../../bloc/task/task_bloc.dart';
+import '../../constants/layout_const.dart';
+import '../../constants/text_const.dart';
+import '../../helpers/sizer_helper.dart';
+import '../../model/task.dart';
+import '../widgets/customed_chip.dart';
+import '../widgets/dialogs/decision_dialog.dart';
+import '../widgets/start_button.dart';
+import 'task_entry_page.dart';
 
 class TaskDetailPage extends StatelessWidget {
+  final Task task;
+
   static const routeName = '/task-detail';
-  const TaskDetailPage({super.key});
+
+  const TaskDetailPage({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -21,30 +31,22 @@ class TaskDetailPage extends StatelessWidget {
         elevation: 0.0,
         actions: [
           IconButton(
-            onPressed: () => context.push(TaskEntryPage.routeName),
+            onPressed: () =>
+                context.go(TaskEntryPage.routeName, extra: {'task'}),
             icon: const Icon(Icons.edit_outlined),
           ),
           IconButton(
-            onPressed: () {
-              showDialog(
+            onPressed: () async {
+              final confirm = await decisionDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  elevation: 0.0,
-                  content: Text(
-                    'are you sure you would like to delete this task?',
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('Yes'),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text('No'),
-                    ),
-                  ],
-                ),
+                contentText: 'Are you sure you would like to delete this task?',
               );
+              if (!confirm) return;
+              if (context.mounted) {
+                context.read<TaskBloc>().add(DeleteTaskEvent(taskId: task.id!));
+                showCustomSnackBar(context: context, text: 'Task deleted!');
+                context.pop();
+              }
             },
             icon: const Icon(IconlyLight.delete),
           ),
@@ -63,12 +65,14 @@ class TaskDetailPage extends StatelessWidget {
                     'Task name',
                     style: taskDetailLabelStyle,
                   ),
-                  const Text(
-                    'Watering Plants In the morning evening',
+                  Text(
+                    task.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 38.0,
                       height: 0.0,
+                      decoration:
+                          task.isCompleted ? TextDecoration.lineThrough : null,
                     ),
                   ),
                   SizedBox(height: 1.h),
@@ -78,7 +82,11 @@ class TaskDetailPage extends StatelessWidget {
                         height: 5.h,
                         child: FittedBox(
                           child: CustomedChip(
-                            chipLayout: ScheduleEnum.todayCompleted,
+                            chipLayout: task.scheduleEnum,
+                            isCompleted: task.isCompleted,
+                            label: task.scheduleEnum == ScheduleEnum.today
+                                ? null
+                                : task.date.formatToDisplableView,
                           ),
                         ),
                       ),
@@ -86,32 +94,57 @@ class TaskDetailPage extends StatelessWidget {
                         height: 5.h,
                         child: FittedBox(
                           child: CustomedChip(
-                            chipLayout: ImportanceEnum.important,
+                            chipLayout: task.importanceEnum,
                           ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 2.h),
-                  Text(
-                    TextConst.description,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.grey[500],
-                      fontSize: 18.0,
+                  if (task.description != null) ...[
+                    Text(
+                      TextConst.description,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey[500],
+                        fontSize: 18.0,
+                      ),
                     ),
-                  ),
-                  Text('-'),
+                    Text(
+                      task.description!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.0,
+                        height: 0.0,
+                        decoration: task.isCompleted
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                    ),
+                  ]
                 ],
               ),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 2.h),
               child: StartButton(
-                label: 'Mark as incomplete',
-                onPressed: () {},
-              ),
+                  label: task.isCompleted
+                      ? 'Mark as Incomplete'
+                      : 'Mark as Complete',
+                  onPressed: () {
+                    context.read<TaskBloc>().add(
+                          CheckBoxTriggerEvent(
+                            taskId: task.id!,
+                            isCompleted: !task.isCompleted,
+                          ),
+                        );
+                    showCustomSnackBar(
+                      context: context,
+                      text: 'Successfully make changes!',
+                    );
+                    context.pop();
+                  }),
             ),
           ],
         ),

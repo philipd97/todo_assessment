@@ -26,11 +26,6 @@ enum ScheduleEnum implements ChipLayout {
     tileColor: ColorName.todayIncompleteTile,
     text: TextConst.today,
   ),
-  todayCompleted(
-    textColor: ColorName.todayCompletedText,
-    tileColor: ColorName.todayCompletedTile,
-    text: TextConst.today,
-  ),
   upcoming(
     textColor: ColorName.upcomingText,
     tileColor: ColorName.upcomingTile,
@@ -51,6 +46,14 @@ enum ScheduleEnum implements ChipLayout {
     required this.tileColor,
     this.text,
   });
+}
+
+extension GetTodayCompletedColor on ChipLayout {
+  Color get textColorCompleted =>
+      this == ScheduleEnum.today ? ColorName.todayCompletedText : textColor;
+
+  Color get tileColorCompleted =>
+      this == ScheduleEnum.today ? ColorName.todayCompletedTile : tileColor;
 }
 
 enum ImportanceEnum implements ChipLayout {
@@ -85,6 +88,7 @@ enum ImportanceEnum implements ChipLayout {
     this.text,
   });
 }
+
 
 enum CalendarMonthEnum {
   january,

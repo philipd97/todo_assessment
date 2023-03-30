@@ -19,6 +19,7 @@ dependencies:
   iconly: ^1.0.1
   intl: ^0.18.0
   path_provider: ^2.0.14
+  showcaseview: ^2.0.2
   sqflite: ^2.2.6
   syncfusion_flutter_calendar: ^21.1.35
 

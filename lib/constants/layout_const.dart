@@ -15,3 +15,8 @@ const taskDetailTitleStyle = TextStyle(
 );
 
 final sidePadding = EdgeInsets.symmetric(horizontal: 5.w);
+
+const dateViewStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 20.0,
+);

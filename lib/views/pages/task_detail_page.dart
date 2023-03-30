@@ -101,7 +101,7 @@ class TaskDetailPage extends StatelessWidget {
                     style: taskDetailLabelStyle,
                   ),
                   Text(
-                    task.title,
+                    task.title!,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 38.0,
@@ -129,7 +129,7 @@ class TaskDetailPage extends StatelessWidget {
                         height: 5.h,
                         child: FittedBox(
                           child: CustomedChip(
-                            chipLayout: task.importanceEnum,
+                            chipLayout: task.importanceEnum!,
                           ),
                         ),
                       ),

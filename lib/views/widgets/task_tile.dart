@@ -64,17 +64,24 @@ class TaskTile extends StatelessWidget {
                   ),
                 ),
           ),
-          title: Text(task.title),
+          title: Text(
+            task.title!,
+            style: TextStyle(
+              decoration: task.isCompleted ? TextDecoration.lineThrough : null,
+            ),
+          ),
           subtitle: Row(
             children: [
-              CustomedChip(
-                chipLayout: task.scheduleEnum,
-                isCompleted: task.isCompleted,
-                label: task.scheduleEnum != ScheduleEnum.today
-                    ? task.date.formatToDisplableView
-                    : null,
+              Flexible(
+                child: CustomedChip(
+                  chipLayout: task.scheduleEnum,
+                  isCompleted: task.isCompleted,
+                  label: task.scheduleEnum != ScheduleEnum.today
+                      ? task.date.formatToDisplableView
+                      : null,
+                ),
               ),
-              CustomedChip(chipLayout: task.importanceEnum),
+              Flexible(child: CustomedChip(chipLayout: task.importanceEnum!)),
             ],
           ),
           trailing: ReorderableDragStartListener(

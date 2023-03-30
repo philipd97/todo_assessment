@@ -57,16 +57,20 @@ class MyApp extends StatelessWidget {
               fontFamily: FontFamily.sofiaSans,
             ),
             routerConfig: routers,
-            builder: (context, child) => ScrollConfiguration(
-              behavior: NoGlowScrollBehaviour(),
-              child: ShowCaseWidget(
-                disableBarrierInteraction: true,
-                onFinish: () {
-                  context
-                      .read<UserBloc>()
-                      .add(const FinishFirstTimeShowcaseEvent());
-                },
-                builder: Builder(builder: (_) => child!),
+            builder: (context, child) => GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: ScrollConfiguration(
+                behavior: NoGlowScrollBehaviour(),
+                child: ShowCaseWidget(
+                  disableBarrierInteraction: true,
+                  onFinish: () {
+                    context
+                        .read<UserBloc>()
+                        .add(const FinishFirstTimeShowcaseEvent());
+                  },
+                  builder: Builder(builder: (_) => child!),
+                ),
               ),
             ),
           );

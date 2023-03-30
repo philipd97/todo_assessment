@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_assessment/bloc/task/task_bloc.dart';
@@ -17,7 +19,6 @@ class SliverTaskBuilder extends StatelessWidget {
       sliver: SliverReorderableList(
         itemCount: tasks.length,
         onReorder: (oldIndex, newIndex) {
-
           context.read<TaskBloc>().add(
                 ReorderTaskIndexEvent(
                   oldIndex: oldIndex,

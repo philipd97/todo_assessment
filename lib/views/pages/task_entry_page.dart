@@ -28,7 +28,7 @@ class TaskEntryPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateTime = useState<DateTime?>(null);
+    final dateTime = useState<DateTime?>(task?.date);
     final importance = useState<ImportanceEnum?>(null);
     final titleController = useTextEditingController(text: task?.title);
     final descController = useTextEditingController(text: task?.description);
@@ -197,6 +197,7 @@ class TaskEntryPage extends HookWidget {
                 child: StartButton(
                   label: 'Save task',
                   onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     if (titleController.text.trim().isEmpty) {
                       showCustomSnackBar(
                         context: context,

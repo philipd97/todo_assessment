@@ -15,22 +15,22 @@ class Task extends Equatable {
   static const indexKey = 'listIndex';
 
   final int? id;
-  final String title;
+  final String? title;
   final DateTime date;
   final String? description;
   final bool isCompleted;
   final ScheduleEnum scheduleEnum;
-  final ImportanceEnum importanceEnum;
-  final int index;
+  final ImportanceEnum? importanceEnum;
+  final int? index;
 
   Task({
     this.id,
-    required this.title,
+    this.title,
     required this.date,
     this.description,
     this.isCompleted = false,
-    required this.importanceEnum,
-    required this.index,
+    this.importanceEnum,
+    this.index,
   }) : scheduleEnum = date.getScheduleEnum;
 
   const Task.copyUsage({
@@ -51,7 +51,7 @@ class Task extends Equatable {
       dateKey: date.formatToDate,
       descKey: description,
       isCompletedKey: isCompleted ? 1 : 0,
-      importanceEnumKey: importanceEnum.name,
+      importanceEnumKey: importanceEnum!.name,
       indexKey: index,
     };
   }

@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todo_assessment/bloc/task/task_bloc.dart';
 import 'package:todo_assessment/gen/colors.gen.dart';
 import 'package:todo_assessment/helpers/enums_helper.dart';
+import 'package:todo_assessment/model/task.dart';
 import 'package:todo_assessment/views/pages/task_detail_page.dart';
 import 'package:todo_assessment/views/pages/task_entry_page.dart';
 
@@ -29,8 +30,13 @@ class _CalendarViewTabState extends State<CalendarViewTab> {
 
   void _onCalendarTapped(CalendarTapDetails calendarTapDetails) {
     if (_calendarController.view == CalendarView.month) {
+      if (calendarTapDetails.targetElement == CalendarElement.header) return;
       if (calendarTapDetails.appointments!.isEmpty) {
-        context.push(TaskEntryPage.routeName);
+        context.push(TaskEntryPage.routeName, extra: {
+          'task': Task(
+            date: calendarTapDetails.date!,
+          ),
+        });
       } else {
         _calendarController.view = CalendarView.schedule;
       }
@@ -57,7 +63,7 @@ class _CalendarViewTabState extends State<CalendarViewTab> {
             .map(
               (task) => Appointment(
                 id: task.id,
-                subject: task.title,
+                subject: task.title!,
                 startTime: task.date,
                 endTime: task.date,
                 color: task.scheduleEnum.tileColor,

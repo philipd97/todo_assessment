@@ -37,10 +37,12 @@ class CustomedChip extends StatelessWidget {
       ),
       child: Text(
         text,
+        maxLines: 1,
         style: TextStyle(
           color: textColor,
           fontWeight: FontWeight.bold,
           fontSize: 12.0,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

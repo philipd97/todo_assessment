@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userState = context.read<UserBloc>().state;
-
       if (!userState.watchedShowcase) _triggerShowCase();
     });
   }
@@ -124,12 +123,17 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: IndexedStack(
-          index: _index.value,
-          children: const [
-            TaskViewTab(),
-            CalendarViewTab(),
-          ],
+        body: ValueListenableBuilder<int>(
+          valueListenable: _index,
+          builder: (context, index, child) {
+            return IndexedStack(
+              index: index,
+              children: const [
+                TaskViewTab(),
+                CalendarViewTab(),
+              ],
+            );
+          },
         ),
       ),
     );
